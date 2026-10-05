@@ -28,7 +28,9 @@ export default {
   // IndexNow 키 — /<키>.txt 로도 응답한다
   indexNowKey: 'b2e8d4c1f7a94e2d8c6b1f3a5e7d9c0b',
   // 본문 "최종 업데이트" 표시와 사이트맵 lastmod
-  updated: '2026-09-16',
+  // 날짜는 손으로 고치지 않는다. ~/projects/deploy.sh 가 배포할 때 git 에서 본문이 마지막으로 바뀐 날을 읽어
+  // CONTENT_DATE 로 넣는다(wrangler --define). 아래 값은 로컬 개발(wrangler dev)에서만 쓰이는 기본값.
+  updated: typeof CONTENT_DATE !== 'undefined' ? CONTENT_DATE : '2026-09-16',
   mailFrom: 'noreply@gwaeondo.com',
   mailTo: 'hhhyunee3@naver.com',
 };
