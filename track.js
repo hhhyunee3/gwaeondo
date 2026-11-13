@@ -95,7 +95,9 @@ export function withTracking(app, site, opts = {}) {
               const out = await copy.json();
               let d = {}; try { d = JSON.parse(await body); } catch (e) {}
               if (out && out.ok === true && !String(d.hp || '').trim()) {
-                let p = ''; try { p = new URL(String(d.page || ''), url.origin).pathname; } catch (e) {}
+                // ctx_p(신청 페이지 경로)가 먼저. 없으면 page — '제목 · /경로' 꼴이면 뒤의 경로만 (2026-11-12)
+                let p = '', raw = String(d.ctx_p || d.page || ''); const i = raw.lastIndexOf(' · /'); if (i >= 0) raw = raw.slice(i + 3);
+                try { const u = new URL(raw, url.origin); if (u.origin === url.origin) p = u.pathname; } catch (e) {}
                 await record(request, env, site, 'form', cleanPath(p), '', ua);
               }
             } catch (e) {}
